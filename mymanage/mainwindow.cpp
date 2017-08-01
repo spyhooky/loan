@@ -41,6 +41,10 @@ int MainWindow::initFram()
 
 int MainWindow::restoreFram()
 {
+    area = ui->areaEdit->text().toInt();
+    capital = ui->capitalEdit->text().toInt();
+    rate = ui->rateEdit->text().toDouble();
+    year = ui->timeEdit->text().toInt();
     return 0;
 }
 
@@ -79,28 +83,14 @@ void MainWindow::on_calculateButton_clicked()
     double bonus = 0;
     double normal_bonus = 0;
 
+    this->restoreFram();
+
     tempCapical = ui->capitalEdit->text().toInt();
     tempRate = ui->rateEdit->text().toDouble();
     tempArea = ui->areaEdit->text().toInt();
     tempTime = ui->timeEdit->text().toInt();
 
-    //qDebug()<<"capital = "<<tempCapical<<" ; rate = "<<ui->rateEdit->text()<<" ; area = "<<tempArea<<" ; time = "<<tempTime;
-    //qDebug("%lf",tempRate);
-    //bonus = (qPow(1+tempRate,(double)tempTime)*(double)tempCapical-(double)tempCapical)/(12*(double)tempArea);
 
-    //qDebug("bonus = %lf",bonus);
-
-    //for(i=1 ; i<=1 ; i++){
-     //   bonus = (qPow(1+tempRate,(double)i)*(double)tempCapical-(double)tempCapical)/(12*(double)tempArea);
-     //   qDebug("bonus = %lf",bonus);
-    //}
-    //bonus = this->doCalculate(1,tempCapical,tempRate,tempArea);
-
-    //qDebug("year %d : bonus = %lf",1,bonus);
-
-    //bonus = this->doCalculate(2,tempCapical,tempRate,tempArea);
-
-    //qDebug("year %d : bonus = %lf",2,bonus);
     for(i=1 ; i<=tempTime ; i++){
         bonus = this->doCalculate(i,tempCapical,tempRate,tempArea);
 
@@ -111,9 +101,9 @@ void MainWindow::on_calculateButton_clicked()
 
     normal_bonus = this->calculateNormal(tempCapical,tempTime,tempRate);
 
-    QString str = QString("%1年银行固定本息为%2;\r\n%3年固定利息为%4").arg(tempTime).arg(normal_bonus).arg(tempTime).arg(normal_bonus-capital);
+    QString str = QString("%1年银行固定本息为%2万元;\r\n%3年固定利息为%4万元").arg(tempTime).arg(normal_bonus/10000.0).arg(tempTime).arg((normal_bonus-capital)/10000.0);
     ui->textEditTotal->append(str);
-
+    qDebug("%lf , %d",normal_bonus,capital);
 }
 
 void MainWindow::on_calculateClearButton_clicked()

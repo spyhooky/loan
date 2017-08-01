@@ -20,10 +20,12 @@ DialogJin::~DialogJin()
 int DialogJin::initData()
 {
     benjin = 200000;
-    rateMon = 0.01;
+    rateMon = 0.00375;
     dayTime = 20;
     shoufu = 200000;
     bankRate = 0.045;
+    gongjijin = 2000;
+    return 0;
 }
 
 int DialogJin::initFram()
@@ -33,6 +35,8 @@ int DialogJin::initFram()
     ui->lineEditRate->setText(QString::number(rateMon));
     ui->lineEditAShoufu->setText(QString::number(shoufu,10));
     ui->lineEditAllBank->setText(QString::number(bankRate));
+    ui->lineEditGong->setText(QString::number(gongjijin,10));
+    return 0;
 }
 
 int DialogJin::loadData()
@@ -40,7 +44,10 @@ int DialogJin::loadData()
     benjin = ui->lineEditAll->text().toInt();
     rateMon = ui->lineEditRate->text().toDouble();
     dayTime = ui->lineEditTime->text().toInt();
+    shoufu = ui->lineEditAShoufu->text().toInt();
+    bankRate = ui->lineEditAllBank->text().toDouble();
     lastMoney = benjin;
+    return 0;
 }
 
 int DialogJin::calculateJin()
@@ -74,9 +81,9 @@ int DialogJin::calculateJin()
         qDebug("第%d月总计为%lf",i,monTotal);
         lastMoney = lastMoney - moneyEveryBenjin;
         qDebug("第%d月后剩余本金为%lf",i,lastMoney);
-        monZhujin = (shoufu*qPow(1+bankRate/12.0,i)-shoufu+monTotal)/1;
-        //lastZhujin += monZhujin;
-        QString str = QString("第%1个月还款为%2,当月应收租金%3,实际支出%4").arg(i).arg(monTotal).arg(monZhujin).arg(monTotal-monZhujin);
+        monZhujin = shoufu*(qPow(1+bankRate/12.0,i)-qPow(1+bankRate/12.0,i-1))+monTotal-gongjijin;
+        qDebug("第%d月应收租金%lf",i,monZhujin);
+        QString str = QString("第%1个月还款为%2,当月应收租金%3").arg(i).arg(monTotal).arg(monZhujin);
         ui->textEdit->append(str);
     }
 

@@ -58,9 +58,16 @@ public:
         rate = new QLabel(centralWidget);
         rate->setObjectName(QStringLiteral("rate"));
         rate->setGeometry(QRect(45, 30, 111, 31));
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(rate->sizePolicy().hasHeightForWidth());
+        rate->setSizePolicy(sizePolicy);
         rateEdit = new QLineEdit(centralWidget);
         rateEdit->setObjectName(QStringLiteral("rateEdit"));
         rateEdit->setGeometry(QRect(150, 30, 113, 25));
+        sizePolicy.setHeightForWidth(rateEdit->sizePolicy().hasHeightForWidth());
+        rateEdit->setSizePolicy(sizePolicy);
         capital = new QLabel(centralWidget);
         capital->setObjectName(QStringLiteral("capital"));
         capital->setGeometry(QRect(380, 30, 41, 31));

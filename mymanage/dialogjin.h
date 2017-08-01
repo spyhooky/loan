@@ -35,6 +35,7 @@ private:
     double lastMoney;
     int shoufu;
     double bankRate;
+    int gongjijin;
 };
 
 #endif // DIALOGJIN_H
